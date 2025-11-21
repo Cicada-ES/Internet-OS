@@ -3,7 +3,7 @@
 # All rights reserved © 2025 Kn3ghtfall
 # ===============================
 
-FROM kasmweb/chrome:1.17.0-rolling
+FROM kasmweb/chrome:1.17.0
 
 USER kasm-user
 WORKDIR /home/kasm-user
