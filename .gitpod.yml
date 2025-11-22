@@ -1,7 +1,0 @@
-image:
-  file: .gitpod.Dockerfile
-
-tasks:
-  - name: Start Chromium
-    command: |
-      chromium-browser --no-sandbox --user-data-dir=/home/kasm-user/.config/chromium
