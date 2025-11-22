@@ -1,19 +1,19 @@
 #!/bin/bash
 set -e
 
-BROWSER_PROFILE="/home/kasm-user/.local/share/kasm-browser"
-mkdir -p $BROWSER_PROFILE
+mkdir -p ~/.config/rclone
 
-rclone config create b2remote b2 account $B2_ACCOUNT_ID key $B2_APPLICATION_KEY --non-interactive
+cat <<EOF > ~/.config/rclone/rclone.conf
+[backblaze]
+type = b2
+account = ${B2_ACCOUNT_ID}
+key = ${B2_APPLICATION_KEY}
+endpoint = ${B2_ENDPOINT}
+EOF
 
-REMOTE="b2remote:Internet-OS"
+while true; do
+    rclone sync /home/kasm-user/backups backblaze:Internet-OS
+    sleep 60
+done &
 
-rclone sync $REMOTE/ $BROWSER_PROFILE/ --create-empty-src-dirs --fast-list || true
-
-(
-  while sleep 60; do
-    rclone sync $BROWSER_PROFILE/ $REMOTE/ --fast-list
-  done
-) &
-
-exec "$@"
+exec /start-kasm.sh
