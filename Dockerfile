@@ -3,18 +3,23 @@
 # All rights reserved © 2025 Kn3ghtfall
 # ===============================
 
+# Base image
 FROM kasmweb/chrome:1.17.0
 
-USER root
+# Set working directory
 WORKDIR /home/kasm-user
-RUN apt-get update && apt-get install -y curl unzip fuse && \
+
+# Install dependencies and rclone
+RUN apt-get update && \
+    apt-get install -y curl unzip fuse && \
     curl https://rclone.org/install.sh | bash && \
     rm -rf /var/lib/apt/lists/*
 
-USER kasm-user
-WORKDIR /home/kasm-user
-COPY entrypoint.sh /home/kasm-user/entrypoint.sh
-RUN chmod +x /home/kasm-user/entrypoint.sh
+# Copy entrypoint with executable permissions
+COPY --chmod=755 entrypoint.sh /home/kasm-user/entrypoint.sh
 
+# Expose port
 EXPOSE 6901
+
+# Set entrypoint
 ENTRYPOINT ["/home/kasm-user/entrypoint.sh"]
