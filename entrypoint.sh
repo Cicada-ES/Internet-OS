@@ -1,7 +1,9 @@
 #!/bin/bash
 
 mkdir -p /home/kasm-user/chromium-profile
-rclone sync b2:Internet-OS/chrome-profile /home/kasm-user/chromium-profile
+
+rclone sync "b2:Internet-OS/chrome-profile" /home/kasm-user/chromium-profile \
+    --b2-account $B2_ACCOUNT_ID --b2-key $B2_APPLICATION_KEY
 
 Xvfb :0 -screen 0 1920x1080x24 &
 fluxbox &
@@ -12,5 +14,6 @@ chromium --no-sandbox --user-data-dir=/home/kasm-user/chromium-profile &
 
 while true; do
     sleep 60
-    rclone sync /home/kasm-user/chromium-profile b2:Internet-OS/chrome-profile
+    rclone sync /home/kasm-user/chromium-profile "b2:Internet-OS/chrome-profile" \
+        --b2-account $B2_ACCOUNT_ID --b2-key $B2_APPLICATION_KEY
 done

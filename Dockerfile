@@ -14,9 +14,6 @@ RUN apt-get update && \
     curl https://rclone.org/install.sh | bash && \
     rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /root/.config/rclone
-COPY rclone.conf /root/.config/rclone/rclone.conf
-
 WORKDIR /home/kasm-user
 
 COPY entrypoint.sh /entrypoint.sh
